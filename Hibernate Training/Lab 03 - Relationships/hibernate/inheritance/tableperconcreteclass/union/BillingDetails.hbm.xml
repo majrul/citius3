@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="hibernate.inheritance">
+
+	<class name="BillingDetails" abstract="true">
+		<id name="id" column="billing_id" type="int">
+			<generator class="increment" />
+		</id>
+		
+		<property name="owner" />
+		<property name="number" column="no" />
+
+		<union-subclass name="CreditCard" table="creditcard_details_3">
+			<property name="type" column="card_type" />
+			<property name="expiryMonth" column="expiry_month" />
+			<property name="expiryYear" column="expiry_year" />
+		</union-subclass>
+
+		<union-subclass name="BankAccount" table="bankaccount_details_3">
+			<property name="bankName" column="bank_name" />
+		</union-subclass>
+		
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="example">
+
+<class name="Summary">
+    <subselect>
+        select items.name, max(bids.amount) amount, count(*) count
+        from items, bids where bids.item_id = items.item_id
+        group by items.name
+    </subselect>
+     <id name="name"/>
+ 	<property name="amount" />
+ 	<property name="count" />
+</class>
+</hibernate-mapping>

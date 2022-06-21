@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="hibernate.anyone" >
+
+	<class name="Order" table="orders_123">
+		<id name="id" column="order_id">
+			<generator class="increment" />
+		</id>
+		
+		<any name="billingDetails"
+				meta-type="string" id-type="int" cascade="save-update">
+			<meta-value value="BA" class="BankAccount" />
+			<meta-value value="CC" class="CreditCard" />
+			<column name="billing_type" />
+			<column name="billing_id" />					
+		</any>
+				
+		<property name="orderDate" />
+		<property name="amount" />
+		
+	</class>
+	
+</hibernate-mapping>

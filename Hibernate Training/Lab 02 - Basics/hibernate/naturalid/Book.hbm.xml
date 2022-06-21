@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+   <class name="hibernate.naturalid.Book" table="books">
+      <id name="id" type="int">
+         <generator class="increment" />
+      </id>
+
+	<natural-id>
+		<property name="isbn" />	
+	</natural-id>
+	
+	<property name="title" />
+	<property name="author" />
+	<property name="publication" />
+   </class>
+</hibernate-mapping>

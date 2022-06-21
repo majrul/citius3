@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="example">
+
+    <class name="Item" table="items">
+        <id name="id" column="item_id" type="int">
+            <generator class="increment" />
+        </id>
+        <property name="name" />
+        <property name="description" />
+        <property name="initialPrice" />
+        <property name="reservePrice" />
+        <property name="validTill">
+            <column name="validTill" sql-type="date" />
+        </property>
+        <set name="categories" table="categories_items" cascade="all">
+            <key column="item_id" />
+            <many-to-many column="category_id" class="Category" />
+        </set>
+        <set name="bids" inverse="true" cascade="all">
+            <key column="item_id" />
+            <one-to-many class="Bid" />
+        </set>
+    </class>
+    <class name="Category" table="categories">
+        <id name="id" column="category_id" type="int">
+            <generator class="increment" />
+        </id>
+        <many-to-one name="parentCategory" column="parent_category_id" not-null="false" />
+        <set name="childCategories" inverse="true" cascade="all">
+            <key column="parent_category_id" />
+            <one-to-many class="Category" />
+        </set>
+        <set name="items" table="categories_items" cascade="all">
+            <key column="category_id" />
+            <many-to-many column="item_id" class="Item" />
+        </set>
+        <property name="name" />
+    </class>
+    <class name="Bid" table="bids">
+        <id name="id" column="bid_id" type="int">
+            <generator class="increment" />
+        </id>
+        <many-to-one name="item" column="item_id" class="Item" not-null="true" />
+        <many-to-one name="member" column="member_id" class="Member" not-null="true" />
+        <property name="amount">
+            <column name="amount" default="0" />
+        </property>
+    </class>
+    <class name="Member" table="members">
+        <id name="id" column="member_id" type="int">
+            <generator class="increment" />
+        </id>
+        <property name="name" />
+    </class>
+    
+    <query name="example.items.getAll">
+    	<![CDATA[select distinct i from example.Item i join fetch i.bids b where i.id = ?]]>
+    </query>
+    
+    <sql-query name="example.items.findAll">
+    	<return alias="item" class="Item" />
+    	<![CDATA[select item_id, name, description, initialPrice,reservePrice,validTill from items where item_id = ?]]>
+    </sql-query>
+</hibernate-mapping>
+
+
+
+
+
+
+
+

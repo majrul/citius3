@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="hibernate.component" >
+
+   <class name="Address" table="addresses">
+      <id name="id" column="id">
+         <generator class="native" />
+      </id>
+	<property name="city" />
+	<property name="street" />
+	<property name="zipcode" />
+	</class>
+
+   <class name="User" table="userss">
+      <id name="id" column="user_id">
+         <generator class="native" />
+      </id>
+
+	<property name="firstname" />
+	<property name="lastname" />
+	<property name="username" />
+	<property name="password" />
+	
+    <many-to-one name="shippingAddress" column="shipping_addr_id" cascade="save-update" />
+
+	<component name="billingAddress" class="Address">
+		<property name="city" type="string" column="billing_street" />
+		<property name="street" type="string" column="billing_city" />
+		<property name="zipcode" type="string" column="billing_zipcode" />
+	</component>
+	
+	<dynamic-component name="userAttributes">
+		<property name="roles" column="roles" type="string" />
+		<property name="active" column="active" type="string" />
+	</dynamic-component>
+	
+  </class>
+
+</hibernate-mapping>

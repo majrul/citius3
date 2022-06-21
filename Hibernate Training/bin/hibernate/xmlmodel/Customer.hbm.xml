@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+   <class entity-name="Customer" table="customers_map" node="customer">
+      <id name="id" type="int" column="id" node="@id">
+      	<generator class="increment" />
+      </id>
+
+	<property name="name" type="string" node="@name" />
+	<property name="email" type="string" node="@email" />
+   </class>
+</hibernate-mapping>

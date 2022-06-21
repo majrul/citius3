@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="hibernate.manytoany" >
+
+	<class name="Customer" table="customers_007">
+		<id name="id" column="cust_id">
+			<generator class="increment" />
+		</id>
+	
+	<set name="subscriptions" table="customer_subscriptions" cascade="save-update">
+		<key column="cust_id" />
+		<many-to-any id-type="int" meta-type="string">
+			<meta-value value="M" class="Magazine" />
+			<meta-value value="O" class="OnlineService" />
+			<column name="subscription_type" />
+			<column name="subscription_id" />
+		</many-to-any>
+	</set>
+		
+	<property name="name" />
+		
+	</class>
+	
+	<class name="Magazine" table="magazines">
+		<id name="id" column="mag_id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="duration" />
+		<property name="fees" />
+		<property name="name" />
+		<property name="type" column="mag_type"/>
+		
+	</class>
+
+	<class name="OnlineService" table="online_service">
+		<id name="id" column="service_id">
+			<generator class="increment" />
+		</id>
+		
+		<property name="duration" />
+		<property name="fees" />
+		<property name="website" />
+		
+	</class>
+	
+</hibernate-mapping>

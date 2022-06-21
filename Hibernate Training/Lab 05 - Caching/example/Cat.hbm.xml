@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="example">
+
+   <class name="Cat" table="cats">
+      <id name="id" column="cat_id" type="int">
+         <generator class="increment" />
+      </id>
+      
+	<many-to-one name="parent" column="p_cat_id" />
+	
+	<set name="kittens" cascade="all">
+		<key column="p_cat_id" />
+		<one-to-many class="Cat" />
+	</set>
+
+	<property name="name" />
+	<property name="age" />
+   </class>
+
+</hibernate-mapping>
