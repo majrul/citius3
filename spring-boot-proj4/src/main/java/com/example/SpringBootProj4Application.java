@@ -3,12 +3,15 @@ package com.example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.caching.Customer;
 import com.example.caching.CustomerRepository;
+import com.zaxxer.hikari.HikariDataSource;
 
 @SpringBootApplication
 @EnableCaching
@@ -18,6 +21,32 @@ public class SpringBootProj4Application {
 		SpringApplication.run(SpringBootProj4Application.class, args);
 	}
 
+}
+
+@Component
+@RestControllerEndpoint(enableByDefault = true, id = "ds")
+class MyDataSourceActuatorEndpoint {
+	
+	@Autowired
+	HikariDataSource dataSource;
+	
+	@RequestMapping("/ds-info")
+	public DsInfo someInfo() {
+		DsInfo info = new DsInfo();
+		info.currentPoolSize = dataSource.getMinimumIdle();
+		return info;
+	}
+}
+
+class DsInfo {
+	int currentPoolSize;
+	
+	public int getCurrentPoolSize() {
+		return currentPoolSize;
+	}
+	public void setCurrentPoolSize(int currentPoolSize) {
+		this.currentPoolSize = currentPoolSize;
+	}
 }
 
 //@Component
